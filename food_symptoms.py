@@ -1,88 +1,76 @@
-# pre-defining
+# day counter
 n = 1
-print("Please, add information for at least 2 days!")
-# checklist for consumed
-print(f"Day {n} - Did you consume: (please, write 0 for 'no' and 1 for 'yes')")
-diary_food = {}
-alcohol = input("- alcohol: ")
-caffeine = input("- caffeine: ")
-red_meat = input("- red meat: ")
-gluten = input("- gluten: ")
-sugar = input("- sugar: ")
-diary_food = {"alcohol": alcohol, "caffeine": caffeine, "red meat": red_meat, "gluten": gluten, "sugar": sugar}
 
-# checklist for symptoms
-print(f"Day {n} - Did you experience any of those symptoms today: (please, write 0 for 'no' and 1 for 'yes')")
+# pre-defined checker
+add_day = True
 diary_symptoms = {}
-pain = input("- pain: ")
-bleeding = input("- bleeding: ")
-nausea = input("- nausea: ")
-bloating = input("- bloating: ")
-fatigue = input("- fatigue: ")
-diary_symptoms = {"pain": pain, "bleeding": bleeding, "nausea": nausea, "bloating": bloating, "fatigue": fatigue}
+diary_food = {}
 
-# for c in day_n_s:
-#     if day_n_s[c] == "y":
-#         print(c)
+symptoms = {}
+food = {}
 
-# adding food and symptoms in a diary - a list for each
-# adds new key in diary until alcohol == ''
-diary = {n: [diary_food, diary_symptoms]}
-while True:
-    n += 1
-    print(f"Day {n} - Did you consume: (please, write 0 for 'no' and 1 for 'yes', leave blank to quit)")
+while add_day:
+
+    food = []
+    symptoms = []
+
+    if n <= 2:
+        print("Please, add information for at least 2 days!")
+
+    # checklist for consumed
+    print(f"Day {n} - Did you consume: (please, write 0 for 'no' and 1 for 'yes')")
+    food_day = {}
     alcohol = input("- alcohol: ")
-
-    if alcohol == '': break  # !!! why doesn't work with break on next line?!
-
     caffeine = input("- caffeine: ")
     red_meat = input("- red meat: ")
     gluten = input("- gluten: ")
     sugar = input("- sugar: ")
+    food_day = {"alcohol": alcohol, "caffeine": caffeine, "red meat": red_meat, "gluten": gluten, "sugar": sugar}
 
-    diary_food = {"alcohol": alcohol, "caffeine": caffeine, "red meat": red_meat, "gluten": gluten, "sugar": sugar}
-
+    # checklist for symptoms
     print(f"Day {n} - Did you experience any of those symptoms today: (please, write 0 for 'no' and 1 for 'yes')")
+    symptoms_day = {}
     pain = input("- pain: ")
     bleeding = input("- bleeding: ")
     nausea = input("- nausea: ")
     bloating = input("- bloating: ")
     fatigue = input("- fatigue: ")
+    symptoms_day = {"pain": pain, "bleeding": bleeding, "nausea": nausea, "bloating": bloating, "fatigue": fatigue}
 
-    diary_symptoms = {"pain": pain, "bleeding": bleeding, "nausea": nausea, "bloating": bloating, "fatigue": fatigue}
+    # diary[n] = [diary_food, diary_symptoms]
+    # diary = {n: [diary_food, diary_symptoms]}
 
-    diary[n] = [diary_food, diary_symptoms]
+    # symptoms[n] = [symptoms_day]
 
-# print(diary)
+    for key, value in symptoms_day.items():
+        if value == "1":
+            if key not in symptoms:
+                symptoms.append(key)
+
+    diary_symptoms[n] = symptoms
+
+    for key, value in food_day.items():
+        if value == "1":
+            if key not in food:
+                food.append(key)
+
+    diary_food[n] = food
+
+    n += 1
+
+    if n > 2:
+        print(f"Would you like to add information for day {n}?")
+        q = input("Write 0 for 'no' and 1 for 'yes': ")
+        if q == "0":
+            add_day = False
+
+
+for l in (1, n-1):
+    if l == 1:
+        print(f"On Day {l} you have experienced {diary_symptoms[l]}. There are no entries for previous day.")
+    # print(diary_symptoms[l])
+    else:
+        print(f"On Day {l} you have experienced {diary_symptoms[l]}. Yesterday you have consumed {diary_food[l-1]}.")
+
 q = 1
-
 print(q)
-
-symptoms_all = []
-food_all = []
-
-for p in range(1, n):
-    #    if q in diary[p][1]:
-    #        print(8)
-    #    for symptom in diary[p][1].values():
-    #        if symptom==1:
-    #            print(symptom)
-    for key, value in diary_symptoms.items():
-        if value == "1":
-            symptoms_all.append(key)
-
-    symptoms_unique = []
-    for i in symptoms_all:
-        if i not in symptoms_unique:
-            symptoms_unique.append(i)
-
-    print(f"On day {p} you have experienced {symptoms_unique}")
-
-    for key, value in diary_food.items():
-        if value == "1":
-            food_all.append(key)
-
-    food_unique = []
-    for j in food_all:
-        if i not in food_unique:
-            food_unique.append(i)
